@@ -1,0 +1,70 @@
+{
+  "kind": "collectionType",
+  "collectionName": "orders",
+  "info": {
+    "singularName": "order",
+    "pluralName": "orders",
+    "displayName": "Order"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "orderNumber": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "products": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product.product",
+      "inversedBy": "orders"
+    },
+    "totalAmount": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "paymentStatus": {
+      "type": "enumeration",
+      "required": true,
+      "default": "pending",
+      "enum": [
+        "pending",
+        "paid",
+        "failed",
+        "refunded"
+      ]
+    },
+    "paymentMethod": {
+      "type": "string",
+      "default": "stripe"
+    },
+    "shippingAddress": {
+      "type": "component",
+      "component": "order.address",
+      "repeatable": false
+    },
+    "orderStatus": {
+      "type": "enumeration",
+      "default": "processing",
+      "enum": [
+        "processing",
+        "shipped",
+        "delivered",
+        "cancelled"
+      ]
+    },
+    "notes": {
+      "type": "text"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::auth.auth",
+      "inversedBy": "orders"
+    }
+  }
+}
